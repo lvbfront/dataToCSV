@@ -3,6 +3,7 @@ import requests
 import csv
 from pathlib import Path
 
+#get the page you want
 
 res = requests.get('https://en.wikipedia.org/wiki/List_of_languages_by_number_of_native_speakers')
 soup = bs4.BeautifulSoup(res.text, 'html.parser')
@@ -13,6 +14,7 @@ filtered_table = [table for table in table_soup if table.caption is not None]
 
 required_table = None
 
+#search for the table you want
 for table in filtered_table:
     if str(table.caption.text).strip() == "Languages with at least 50 million first-language speakers[7]":
         required_table = table
@@ -20,7 +22,6 @@ for table in filtered_table:
 print(required_table)
 
 rows = required_table.find_all('tr')
-#print(rows)
 
 headers = [ head.text.replace('\n', '') for head in rows[0].find_all('th') ]
 print(headers)
